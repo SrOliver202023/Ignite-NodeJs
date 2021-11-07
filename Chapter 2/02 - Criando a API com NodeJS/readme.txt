@@ -1,0 +1,1 @@
+yarn add -D @typescript-eslint/eslint-plugin@latest eslint-config-airbnb-base@latest eslint-plugin-import@latest @typescript-eslint/parser@latest
