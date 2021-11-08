@@ -1,4 +1,3 @@
-import { response } from "express";
 import { ICategoriesRepository } from "../../repositories/interfaces/ICategoriesRepository";
 
 interface IRequest {
