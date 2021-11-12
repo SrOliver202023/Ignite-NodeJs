@@ -1,8 +1,8 @@
 import { ListCategoriesUseCase } from './ListCategoriesUseCase';
-import { CategoriesRepository } from '../../repositories/entities/CategoriesRepository';
+import { CategoriesRepository } from '../../repositories/implementations/CategoriesRepository';
 import { ListCategoriesController } from './ListCategoriesController';
 
-const categoriesRepository = CategoriesRepository.getInstance();
+const categoriesRepository = null;
 
 const listCategoriesUseCase = new ListCategoriesUseCase(categoriesRepository);
 
