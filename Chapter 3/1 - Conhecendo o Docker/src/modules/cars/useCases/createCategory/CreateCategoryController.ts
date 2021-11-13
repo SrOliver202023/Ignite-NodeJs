@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
+import { CreateCategoryUseCase } from './CreateCategoryUseCase';
 import { container } from 'tsyringe';
 
-import { CreateCategoryUseCase } from './CreateCategoryUseCase';
 
 class CreateCategoryController {
-  constructor(private createCategoryUseCase: CreateCategoryUseCase) { }
   async handle(req: Request, res: Response): Promise<Response> {
     const { name, description } = req.body;
 
@@ -13,8 +12,7 @@ class CreateCategoryController {
 
     return res.status(201).json({ msg: "Successfully registered!" });
   }
-
-
 }
 
-export { CreateCategoryController };
+const createCategoryController = new CreateCategoryController().handle;
+export { createCategoryController };

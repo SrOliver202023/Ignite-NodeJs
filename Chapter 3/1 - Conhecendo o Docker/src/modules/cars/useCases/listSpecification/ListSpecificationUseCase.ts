@@ -1,22 +1,22 @@
 import { ISpecificationsRepository } from '../../repositories/interfaces/ISpecificationsRepository';
 import { Specification } from '../../entities/Specification';
+import { injectable, inject } from 'tsyringe';
 
 interface IRequest {
   name: string;
   description: string;
 }
 
+@injectable()
 class ListSpecificationUseCase {
-  constructor(private specificationsRepository: ISpecificationsRepository) { }
+  constructor(
+    @inject('SpecificationsRepository')
+    private specificationsRepository: ISpecificationsRepository) { }
 
-  execute({ name }: IRequest): Specification {
-    const specification = this.specificationsRepository.findByName(name);
+  async execute({ name }: IRequest): Promise<Specification[]> {
+    const specifications = await this.specificationsRepository.list();
 
-    if (!specification) {
-      throw new Error("Specification not found!");
-    }
-
-    return specification;
+    return specifications;
   }
 }
 

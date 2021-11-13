@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { container } from "tsyringe";
 
 import { ICategoriesRepository } from '../../modules/cars/repositories/interfaces/ICategoriesRepository';

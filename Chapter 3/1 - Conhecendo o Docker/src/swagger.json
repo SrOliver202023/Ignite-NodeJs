@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "RentalX Documentation",
+    "title": "RentX Documentation",
     "description": "This is an API Rent",
     "version": "1.0.0",
     "contact": {
@@ -39,10 +39,30 @@
         },
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Successfully registered!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Registered"
+                },
+                "example": {
+                  "msg": "Successfully registered!"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Category already exists!"
+            "description": "Category already exists!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Registered"
+                },
+                "example": {
+                  "error": "Category already exists!"
+                }
+              }
+            }
           }
         }
       },
@@ -74,6 +94,153 @@
               }
             }
           }
+        }
+      }
+    },
+    "/categories/import": {
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "summary": "Import multiples categories using csv",
+        "description": "Import multiples categories using csv",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "file",
+                    "format": "binary",
+                    "description": "File must be csv type"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully registered!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Registered"
+                },
+                "example": {
+                  "msg": "Successfully registered!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/specifications": {
+      "post": {
+        "tags": [
+          "Specifications"
+        ],
+        "summary": "Create a specification",
+        "description": "Create a new specification",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Specifications"
+              },
+              "example": {
+                "name": "Tari Ferrari",
+                "description": "The black of the Pirelli tyres serves to provide the Maranello reds with maximum control."
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Specifications registered successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "msg": "Specifications registered successfully!"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Specifications already exists!"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Specifications"
+        ],
+        "summary": "List all specifications",
+        "description": "List all specifications",
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Specifications-List"
+                },
+                "example": [
+                  {
+                    "name": "Tari Ferrari",
+                    "description": "The black of the Pirelli tyres serves to provide the Maranello reds with maximum control."
+                  },
+                  {
+                    "name": "Thrustmaster Ferrari",
+                    "description": "Wheel is 11 inches / 28 cm in diameter — a 7:10 scale replica of the wheel on the real Ferrari 458 Spider sports car."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Specifications": {
+      "type": "oject",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "Specifications-List": {
+      "type": "array",
+      "properties": [
+        {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "Registered": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
         }
       }
     }
