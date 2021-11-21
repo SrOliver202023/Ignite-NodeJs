@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "es5", /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "module": "commonjs", /* Specify what module code is generated. */
+    "rootDir": "./",
+    "baseUrl": "./src", /* Specify the base directory to resolve non-relative module names. */
+    "paths": {
+      "@modules/*": [
+        "modules/*"
+      ],
+      "@config/*": [
+        "config/*"
+      ],
+      "@shared/*": [
+        "shared/*"
+      ],
+      "@errors/*": [
+        "errors/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ]
+    }, /* Specify a set of entries that re-map imports to additional lookup locations. */
+    "esModuleInterop": true, /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */
+    "experimentalDecorators": true, /* Enable experimental support for TC39 stage 2 draft decorators. */
+    "emitDecoratorMetadata": true, /* Emit design-type metadata for decorated declarations in source files. */
+    "skipLibCheck": true, /* Skip type checking all .d.ts files. */
+    "forceConsistentCasingInFileNames": true, /* Ensure that casing is correct in imports. */
+    "resolveJsonModule": true
+  }
+}
