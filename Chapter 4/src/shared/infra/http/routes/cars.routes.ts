@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { createCarController } from '@modules/cars/useCases/createCar/CreateCarController';
+import { listAvaibleCarsController } from '@modules/cars/useCases/listAvailableCars/ListAvailableCarsController';
 import { ensureAdmin } from '../middlewares/ensureAdmin';
 import { ensureAuhtenticated } from '../middlewares/ensureAuthenticated';
 
@@ -10,5 +11,8 @@ carsRoutes.post('/',
   // ensureAuhtenticated,
 
   createCarController);
+carsRoutes.get('/available', listAvaibleCarsController);
+
+
 
 export { carsRoutes };
