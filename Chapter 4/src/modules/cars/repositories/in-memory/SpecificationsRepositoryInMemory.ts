@@ -2,12 +2,16 @@ import { Specification } from '@modules/cars/infra/typeorm/entities/Specificatio
 import { ICreateSpecificationDTO, ISpecificationsRepository } from '../interfaces/ISpecificationsRepository';
 
 
-class SpecificationsInMemory implements ISpecificationsRepository {
+class SpecificationsRepositoryInMemory implements ISpecificationsRepository {
   specifications: Specification[] = [];
-  async create({ name, description }: ICreateSpecificationDTO): Promise<void> {
+  async create({ name, description }: ICreateSpecificationDTO): Promise<Specification> {
     const specification = new Specification();
+
     Object.assign(specification, { description, name });
+
     this.specifications.push(specification);
+
+    return specification;
   }
   async list(): Promise<Specification[]> {
     return this.specifications;
@@ -25,4 +29,4 @@ class SpecificationsInMemory implements ISpecificationsRepository {
 
 }
 
-export { SpecificationsInMemory };
+export { SpecificationsRepositoryInMemory };

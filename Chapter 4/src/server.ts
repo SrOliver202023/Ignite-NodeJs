@@ -1,27 +1,24 @@
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
+import { AppError } from './shared/errors/AppError';
 import swaggerUi from 'swagger-ui-express';
 import createConnection from "@shared/infra/typeorm";
 import { router } from './shared/infra/http/routes';
 import swaggerFile from './swagger.json';
 
 import "./shared/container";
-import { AppError } from './shared/errors/AppError';
-
 
 createConnection();
 const app = express();
 const PORT = 3333;
 
+
 app.use(express.json());
 app.get('/test', (req, res) => res.json({ msg: "Hello World!" }));
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
-
 app.get('/test', (req, res) => {
   return res.status(200).json({ msg: "Hello people!" });
 });
-
 app.use(router);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
