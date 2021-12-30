@@ -7,6 +7,11 @@ import { createCarController } from '@modules/cars/useCases/createCar/CreateCarC
 import { listAvaibleCarsController } from '@modules/cars/useCases/listAvailableCars/ListAvailableCarsController';
 import { createCarSpecificationController } from '@modules/cars/useCases/createCarSpecification/CreateCarSpecificationController';
 
+import { uploadCarImagesController } from '@modules/cars/useCases/uploadCarImages/UploadCarImagesController';
+
+const uploadAvatar = multer(uploadConfig.upload("./tmp/avatar"));
+
+
 
 const carsRoutes = Router();
 
@@ -24,5 +29,9 @@ carsRoutes.post('/specifications/:id',
   ensureAdmin,
   createCarSpecificationController);
 
+carsRoutes.post('/images',
+  ensureAuhtenticated,
+  ensureAdmin,
+  uploadCarImagesController);
 
 export { carsRoutes };
