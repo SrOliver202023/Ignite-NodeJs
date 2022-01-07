@@ -8,6 +8,7 @@ import { listSpecificationController } from '@modules/cars/useCases/listSpecific
 import { ensureAuhtenticated } from '@shared/infra/http/middlewares/ensureAuthenticated';
 
 specificationsRoutes.use(ensureAuhtenticated);
+
 specificationsRoutes.post('/', createSpecificationController);
 
 specificationsRoutes.get('/', listSpecificationController);

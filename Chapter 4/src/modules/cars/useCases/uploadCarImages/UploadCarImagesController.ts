@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { UploadCarImagesUseCase } from './UploadCarImagesUseCase';
 
-
 interface IFiles {
   filename: string;
 }
@@ -10,7 +9,6 @@ interface IFiles {
 class UploadCarImagesController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-
     const images = request.files as IFiles[];
 
     const uploadCarImageUseCase = container.resolve(UploadCarImagesUseCase);
@@ -22,7 +20,7 @@ class UploadCarImagesController {
       images_name
     });
 
-    return response.status(201).send();
+    return response.status(201).json({ msg: "Image uploaded Successfully" });
   }
 }
 

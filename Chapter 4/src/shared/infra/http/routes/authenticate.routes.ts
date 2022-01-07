@@ -5,4 +5,4 @@ const authenticateRoutes = Router();
 
 authenticateRoutes.post('/sessions', authenticateUserController);
 
-export { authenticateRoutes };
+export { authenticateRoutes };     

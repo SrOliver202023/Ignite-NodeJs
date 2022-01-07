@@ -1,4 +1,5 @@
 import { ICarsImagesRepository } from "@modules/cars/repositories/interfaces/ICarsImagesRepository";
+import { AppError } from "@shared/errors/AppError";
 import { injectable, inject } from "tsyringe";
 
 interface IRequest {
@@ -9,6 +10,7 @@ interface IRequest {
 @injectable()
 class UploadCarImagesUseCase {
   constructor(
+
     @inject("CarsImagesRepository")
     private carsImagesRepository: ICarsImagesRepository
   ) {

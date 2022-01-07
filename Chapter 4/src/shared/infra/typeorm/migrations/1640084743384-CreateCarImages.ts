@@ -17,6 +17,10 @@ export class CreateCarImages1640084743384 implements MigrationInterface {
                         type: "uuid"
                     },
                     {
+                        name: "image_name",
+                        type: "varchar"
+                    },
+                    {
                         name: "created_at",
                         type: "timestamp",
                         default: "now()"
