@@ -14,6 +14,7 @@ interface ICarsRepository {
     name?: string;
   }): Promise<Car[]>;
   findById(id: string): Promise<Car>;
+  changeAvailability(id: string): Promise<Car>;
 }
 
 export { ICarsRepository };

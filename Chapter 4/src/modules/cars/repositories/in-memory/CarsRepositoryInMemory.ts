@@ -1,7 +1,7 @@
 import { ICreateCarDTO } from '@modules/cars/dtos/ICreateCarDTO';
 import { ICarsRepository } from '../interfaces/ICarsRepository';
 import { Car } from '@modules/cars/infra/typeorm/entities/Car';
-
+import { validate } from 'uuid';
 class CarsRepositoryInMemory implements ICarsRepository {
   cars: Car[] = [];
 
@@ -18,7 +18,7 @@ class CarsRepositoryInMemory implements ICarsRepository {
   }: ICreateCarDTO): Promise<Car> {
     const car = new Car();
 
-    Object.assign(car, {
+    const assignCar = {
       brand,
       category_id,
       daily_rate,
@@ -28,7 +28,9 @@ class CarsRepositoryInMemory implements ICarsRepository {
       name,
       specifications,
       id
-    });
+    };
+    if (!validate(id)) delete assignCar.id;
+    Object.assign(car, assignCar);
 
     this.cars.push(car);
 
@@ -54,8 +56,20 @@ class CarsRepositoryInMemory implements ICarsRepository {
       });
     return all;
   }
+
   async findById(id: string): Promise<Car> {
     return this.cars.find(car => car.id === id);
+  }
+
+  async changeAvailability(id: string): Promise<Car> {
+    const car = this.cars.find(car => car.id === id);
+
+    if (car) {
+      const boolean = car.available === true ? false : true;
+      car.available = boolean;
+    }
+
+    return car;
   }
 }
 

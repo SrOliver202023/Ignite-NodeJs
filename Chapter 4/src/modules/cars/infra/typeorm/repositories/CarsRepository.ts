@@ -1,7 +1,7 @@
 import { ICreateCarDTO } from "@modules/cars/dtos/ICreateCarDTO";
 import { ICarsRepository } from "@modules/cars/repositories/interfaces/ICarsRepository";
+import { AppError } from "@shared/errors/AppError";
 import { getRepository, Repository } from "typeorm";
-import { runInThisContext } from "vm";
 import { Car } from "../entities/Car";
 
 class CarsRepository implements ICarsRepository {
@@ -71,6 +71,20 @@ class CarsRepository implements ICarsRepository {
   async findById(id: string): Promise<Car> {
     const car = await this.repository.findOne({ id });
     return car;
+  }
+  async changeAvailability(id: string): Promise<Car> {
+    const car: Car = await this.repository.findOne(id);
+
+    if (car) {
+      const boolean = car.available === true ? false : true;
+      car.available = boolean;
+    }
+
+    const updateCar = this.repository.create(car);
+
+    await this.repository.save(updateCar);
+
+    return updateCar;
   }
 };
 

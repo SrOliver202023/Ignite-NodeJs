@@ -5,7 +5,8 @@ import {
   ManyToOne,
   ManyToMany,
   PrimaryColumn,
-  JoinTable
+  JoinTable,
+  UpdateDateColumn
 
 } from 'typeorm';
 import { v4 as uuidV4 } from 'uuid';
@@ -26,7 +27,7 @@ class Car {
   daily_rate: number;
 
   @Column()
-  available: true;
+  available: boolean;
 
   @Column()
   license_plate: string;
@@ -55,6 +56,9 @@ class Car {
 
   @CreateDateColumn()
   created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 
   constructor() {
     if (!this.id) {

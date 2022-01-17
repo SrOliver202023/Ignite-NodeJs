@@ -1,21 +1,27 @@
-import { AppError } from "@shared/errors/AppError";
 import dayjs from "dayjs";
-import { RentalsRepositoryInMemory } from "../repositories/in-memory/RentalsRepositoryInMemory";
-import { CreateRentalUseCase } from "./CreateRentalUseCase";
-import utc from 'dayjs/plugin/utc';
+import { RentalsRepositoryInMemory } from "../../repositories/in-memory/RentalsRepositoryInMemory";
 import { DayjsDateProvider } from "@shared/container/providers/DateProvider/implementations/DayjsDateProvider";
+import { AppError } from "@shared/errors/AppError";
+import { CreateRentalUseCase } from "./CreateRentalUseCase";
+import { CarsRepositoryInMemory } from "@modules/cars/repositories/in-memory/CarsRepositoryInMemory";
 
+jest.useFakeTimers();
+
+let carsRepositoryInMemory: CarsRepositoryInMemory;
 let createRentalUseCase: CreateRentalUseCase;
 let rentalsRepositoryInMemory: RentalsRepositoryInMemory;
 let dayjsDateProvider: DayjsDateProvider;
+
+jest.useFakeTimers();
 
 describe("Create rental", () => {
   const dayAdd24Hours = dayjs().add(1, "day").toDate();
 
   beforeEach(() => {
+    carsRepositoryInMemory = new CarsRepositoryInMemory();
     rentalsRepositoryInMemory = new RentalsRepositoryInMemory();
     dayjsDateProvider = new DayjsDateProvider();
-    createRentalUseCase = new CreateRentalUseCase(rentalsRepositoryInMemory, dayjsDateProvider);
+    createRentalUseCase = new CreateRentalUseCase(rentalsRepositoryInMemory, carsRepositoryInMemory, dayjsDateProvider);
   });
 
   it("Should be able to create a new rental.", async () => {
@@ -25,7 +31,6 @@ describe("Create rental", () => {
       expected_return_date: dayAdd24Hours
     });
 
-    console.log(rental);
     expect(rental).toHaveProperty('id');
     expect(rental).toHaveProperty('start_date');
   });
@@ -53,13 +58,13 @@ describe("Create rental", () => {
     expect(async () => {
       const rental = await createRentalUseCase.execute({
         user_id: "123",
-        car_id: "123d-cx412809x-123fdsa12zn",
+        car_id: "123d",
         expected_return_date: dayAdd24Hours
       });
 
       const rental2 = await createRentalUseCase.execute({
         user_id: "321",
-        car_id: "123d-cx412809x-123fdsa12zn",
+        car_id: "123d",
         expected_return_date: dayAdd24Hours
       });
 
@@ -71,13 +76,35 @@ describe("Create rental", () => {
     expect(async () => {
       const rental = await createRentalUseCase.execute({
         user_id: "123",
-        car_id: "123d-cx412809x-123fdsa12zn",
+        car_id: "123",
         expected_return_date: dayjs().toDate()
       });
 
     }).rejects.toBeInstanceOf(AppError);
   });
 
+  it("It should not be possible to show cars with an open end date.", async () => {
+    const car = await carsRepositoryInMemory.create({
+      name: "Car Test",
+      description: "Description Car",
+      daily_rate: 100,
+      license_plate: "ABC-1234",
+      fine_amount: 60,
+      brand: "Brand",
+      category_id: "category"
+    });
 
+    const rental = await createRentalUseCase.execute({
+      user_id: "123",
+      car_id: car.id,
+      expected_return_date: dayAdd24Hours
+    });
+
+    const carsAvailable = await carsRepositoryInMemory.findAvailable({});
+    console.log(carsAvailable);
+
+    const findCarUnavailable = carsAvailable.some(car => car.id === rental.car_id);
+    expect(findCarUnavailable).toBe(false);
+  });
 
 });
