@@ -5,3 +5,8 @@
 **/tmp/*jpg
 **/tmp/*jpeg
 **/tmp/**
+**/tmp/**.env
+**/.env
+**/**/.env
+**/**/**/.env
+**/**/**/**/.env

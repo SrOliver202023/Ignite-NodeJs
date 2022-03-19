@@ -7,7 +7,7 @@ import { ensureAuhtenticated } from '@shared/infra/http/middlewares/ensureAuthen
 import { updateUserAvatarController } from '@modules/accounts/useCases/updateUserAvatar/UpdateUserAvatarController';
 
 const usersRoutes = Router();
-const uploadAvatar = multer(uploadConfig.upload("./tmp/avatar"));
+const uploadAvatar = multer(uploadConfig);
 
 usersRoutes.post("/", createUserController);
 
